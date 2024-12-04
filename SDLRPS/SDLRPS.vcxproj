@@ -76,11 +76,19 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)External\SDL2-2.30.8\include;$(SolutionDir)External\SDL2_ttf-2.22.0\include;$(SolutionDir)External\SDL2_mixer-2.8.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)External\SDL2-2.30.8\lib\x86;$(SolutionDir)External\SDL2_ttf-2.22.0\lib\x86;$(SolutionDir)External\SDL2_mixer-2.8.0\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>copy /Y "$(SolutionDir)External\SDL2-2.30.8\lib\x86\SDL2.dll" "$(TargetDir)"
+copy /Y "$(SolutionDir)External\SDL2_ttf-2.22.0\lib\x86\SDL2_ttf.dll" "$(TargetDir)"
+copy /Y "$(SolutionDir)External\SDL2_mixer-2.8.0\lib\x86\SDL2_mixer.dll" "$(TargetDir)"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
