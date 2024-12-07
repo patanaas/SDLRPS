@@ -36,19 +36,19 @@ GameLevel::~GameLevel() {
 }
 
 bool GameLevel::Load() {
-    m_font = TTF_OpenFont(Game::GetAssetPath("Arial.ttf").c_str(), 20);
+    m_font = TTF_OpenFont(Game::GetAssetPath("Fonts/arial.ttf").c_str(), 20);
     if (!m_font) return false;
 
-    m_music = Mix_LoadMUS(Game::GetAssetPath("Track1.mp3").c_str());
+    m_music = Mix_LoadMUS(Game::GetAssetPath("Audio/Music/Track1.mp3").c_str());
     if (!m_music) return false;
 
-    m_whooshSound = Mix_LoadWAV(Game::GetAssetPath("whoosh.wav").c_str());
+    m_whooshSound = Mix_LoadWAV(Game::GetAssetPath("Audio/Effects/Whoosh.wav").c_str());
     if (!m_whooshSound) return false;
 
-    m_gunSound = Mix_LoadWAV(Game::GetAssetPath("gunshot.wav").c_str());
+    m_gunSound = Mix_LoadWAV(Game::GetAssetPath("Audio/Effects/DistantGunshot.wav").c_str());
     if (!m_gunSound) return false;
 
-    m_spriteSheet = Game::Instance().LoadTGA(Game::GetAssetPath("RockPaperScissors.tga").c_str());
+    m_spriteSheet = Game::Instance().LoadTGA(Game::GetAssetPath("Textures/RockPaperScissors.tga").c_str());
     if (!m_spriteSheet) return false;
 
     Mix_PlayMusic(m_music, -1);

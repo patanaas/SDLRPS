@@ -56,8 +56,8 @@ void MenuLevel::Render() {
     SDL_RenderCopy(renderer, m_background, nullptr, nullptr);
 
     // Render player labels
-    RenderText("Player 1:", m_whiteColor, 50, 50, 30);
-    RenderText("Player 2:", m_whiteColor, 50, 150, 30);
+    RenderText("", m_whiteColor, 10, 50, 30);
+    RenderText("", m_whiteColor, 10, 200, 30);
 
     // Render existing nicknames
     for (size_t i = 0; i < m_nicknames.size(); ++i) {
@@ -124,7 +124,7 @@ void MenuLevel::HandleEvents(SDL_Event& event) {
 }
 
 void MenuLevel::RenderText(const std::string& text, SDL_Color color, int x, int y, int fontSize) {
-    TTF_Font* font = TTF_OpenFont(Game::GetAssetPath("Arial.ttf").c_str(), fontSize);
+    TTF_Font* font = TTF_OpenFont(Game::GetAssetPath("Fonts/arial.ttf").c_str(), fontSize);
     if (!font) return;
 
     SDL_Surface* surface = TTF_RenderText_Solid(font, text.c_str(), color);
