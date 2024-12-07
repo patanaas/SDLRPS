@@ -36,7 +36,7 @@ GameLevel::~GameLevel() {
 }
 
 bool GameLevel::Load() {
-    m_font = TTF_OpenFont(Game::GetAssetPath("Fonts/arial.ttf").c_str(), 20);
+   /* m_font = TTF_OpenFont(Game::GetAssetPath("Fonts/arial.ttf").c_str(), 20);
     if (!m_font) return false;
 
     m_music = Mix_LoadMUS(Game::GetAssetPath("Audio/Music/Track1.mp3").c_str());
@@ -52,6 +52,57 @@ bool GameLevel::Load() {
     if (!m_spriteSheet) return false;
 
     Mix_PlayMusic(m_music, -1);
+    return true;*/
+    SDL_Log("GameLevel Load started");
+
+    // Load font
+    SDL_Log("Attempting to load font from: %s", Game::GetAssetPath("Fonts/arial.ttf").c_str());
+    m_font = TTF_OpenFont(Game::GetAssetPath("Fonts/arial.ttf").c_str(), 20);
+    if (!m_font) {
+        SDL_Log("Failed to load font: %s", TTF_GetError());
+        return false;
+    }
+    SDL_Log("Font loaded successfully");
+
+    // Load music
+    SDL_Log("Attempting to load music from: %s", Game::GetAssetPath("Audio/Music/Track1.mp3").c_str());
+    m_music = Mix_LoadMUS(Game::GetAssetPath("Audio/Music/Track1.mp3").c_str());
+    if (!m_music) {
+        SDL_Log("Failed to load music: %s", Mix_GetError());
+        return false;
+    }
+    SDL_Log("Music loaded successfully");
+
+    // Load whoosh sound
+    SDL_Log("Attempting to load whoosh sound from: %s", Game::GetAssetPath("Audio/Effects/Whoosh.wav").c_str());
+    m_whooshSound = Mix_LoadWAV(Game::GetAssetPath("Audio/Effects/Whoosh.wav").c_str());
+    if (!m_whooshSound) {
+        SDL_Log("Failed to load whoosh sound: %s", Mix_GetError());
+        return false;
+    }
+    SDL_Log("Whoosh sound loaded successfully");
+
+    // Load gunshot sound
+    SDL_Log("Attempting to load gunshot sound from: %s", Game::GetAssetPath("Audio/Effects/DistantGunshot.wav").c_str());
+    m_gunSound = Mix_LoadWAV(Game::GetAssetPath("Audio/Effects/DistantGunshot.mp3").c_str());
+    if (!m_gunSound) {
+        SDL_Log("Failed to load gunshot sound: %s", Mix_GetError());
+        return false;
+    }
+    SDL_Log("Gunshot sound loaded successfully");
+
+    // Load sprite sheet
+    SDL_Log("Attempting to load sprite sheet from: %s", Game::GetAssetPath("Textures/RockPaperScissors.tga").c_str());
+    m_spriteSheet = Game::Instance().LoadTGA(Game::GetAssetPath("Textures/RockPaperScissors.tga").c_str());
+    if (!m_spriteSheet) {
+        SDL_Log("Failed to load sprite sheet");
+        return false;
+    }
+    SDL_Log("Sprite sheet loaded successfully");
+
+    // If we got here, everything loaded successfully
+    Mix_PlayMusic(m_music, -1);
+    SDL_Log("GameLevel Load completed successfully");
     return true;
 }
 
@@ -222,18 +273,24 @@ void GameLevel::Render() {
         // Render player nicknames
         RenderText(m_players[i].nickname, { 0, 255, 0, 255 },
             m_players[i].position.x, m_players[i].position.y - 30, 20);
+        RenderText(m_stateMessage, {255, 0, 0, 255},
+            m_players[i].position.x, m_players[i].position.y - 10, 20);
+        // Render scores
+        std::string score = "Wins: " + std::to_string(m_players[0].wins) +
+            " Losses: " + std::to_string(m_players[0].losses);
+        RenderText(score, { 0, 0, 255, 255 }, m_players[i].position.x, m_players[i].position.y + 20, 20);
     }
 
     // Render state message
-    RenderText(m_stateMessage, { 255, 0, 0, 255 }, 10, 10, 20);
+    //RenderText(m_stateMessage, { 255, 0, 0, 255 }, 10, 10, 20);
 
     // Render scores
-    std::string score1 = "Wins: " + std::to_string(m_players[0].wins) +
+    /*std::string score1 = "Wins: " + std::to_string(m_players[0].wins) +
         " Losses: " + std::to_string(m_players[0].losses);
     std::string score2 = "Wins: " + std::to_string(m_players[1].wins) +
         " Losses: " + std::to_string(m_players[1].losses);
     RenderText(score1, { 0, 0, 255, 255 }, 10, 40, 20);
-    RenderText(score2, { 0, 0, 255, 255 }, 10, 70, 20);
+    RenderText(score2, { 0, 0, 255, 255 }, 10, 70, 20);*/
 
     // Render game info
     std::string info = "FPS: " + std::to_string(m_fps) +
@@ -331,7 +388,7 @@ void GameLevel::LoadGame() {
 }
 
 void GameLevel::RenderText(const std::string& text, SDL_Color color, int x, int y, int fontSize) {
-    TTF_Font* font = TTF_OpenFont(Game::GetAssetPath("Arial.ttf").c_str(), fontSize);
+    TTF_Font* font = TTF_OpenFont(Game::GetAssetPath("Fonts/arial.ttf").c_str(), fontSize);
     if (!font) return;
 
     SDL_Surface* surface = TTF_RenderText_Solid(font, text.c_str(), color);
