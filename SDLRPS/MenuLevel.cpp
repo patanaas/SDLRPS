@@ -56,12 +56,12 @@ void MenuLevel::Render() {
     SDL_RenderCopy(renderer, m_background, nullptr, nullptr);
 
     // Render player labels
-    RenderText("", m_whiteColor, 10, 50, 30);
-    RenderText("", m_whiteColor, 10, 200, 30);
+    RenderText("", m_whiteColor, -100, 50, 30);
+    RenderText("", m_whiteColor, -100, 200, 30);
 
     // Render existing nicknames
     for (size_t i = 0; i < m_nicknames.size(); ++i) {
-        RenderText(m_nicknames[i], m_yellowColor, 200, 50 + static_cast<int>(i) * 100, 40);
+        RenderText(m_nicknames[i], m_yellowColor, 50, 50 + static_cast<int>(i) * 100, 40);
     }
 
     // Render current input
@@ -71,7 +71,7 @@ void MenuLevel::Render() {
         if (SDL_GetTicks() / 500 % 2 == 0) {
             inputText += "_";
         }
-        RenderText(inputText, m_yellowColor, 200, 50 + m_currentPlayer * 100, 40);
+        RenderText(inputText, m_yellowColor, 50, 65 + m_currentPlayer * 140, 40);
     }
 
     // Render error message
