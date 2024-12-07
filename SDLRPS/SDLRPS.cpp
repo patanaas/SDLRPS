@@ -1,14 +1,25 @@
 // SDLRPS.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-#include <iostream>
+#include "Game.h"
 
 // BAse code 
+int main(int argc, char* argv[]) {
+    if (!Game::Instance().Init()) {
+        SDL_Log("Game initialization failed!");
+        return -1;
+    }
 
-int main()
-{
-    std::cout << "Hello World!\n";
+    Game::Instance().Run();
+    Game::Instance().Clean();
+
+    return 0;
 }
+
+//int main()
+//{
+//    std::cout << "Hello World!\n";
+//}
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu
