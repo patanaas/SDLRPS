@@ -178,23 +178,41 @@ void GameLevel::HandleControllerMovement(float deltaTime) {
     const float moveSpeed = 300.0f; // pixels per second
     const float deadzone = 8000.0f; // Adjust as needed
 
-    for (int i = 0; i < 2; ++i) {
-        if (m_controllers[i]) {
-            float axisX = SDL_GameControllerGetAxis(m_controllers[i], SDL_CONTROLLER_AXIS_LEFTX);
-            float axisY = SDL_GameControllerGetAxis(m_controllers[i], SDL_CONTROLLER_AXIS_LEFTY);
+    // Player 1 controlled by left stick
+    if (m_controllers[0]) {
+        float axisX = SDL_GameControllerGetAxis(m_controllers[0], SDL_CONTROLLER_AXIS_LEFTX);
+        float axisY = SDL_GameControllerGetAxis(m_controllers[0], SDL_CONTROLLER_AXIS_LEFTY);
 
-            // Apply deadzone
-            if (fabs(axisX) < deadzone) axisX = 0;
-            if (fabs(axisY) < deadzone) axisY = 0;
+        // Apply deadzone
+        if (fabs(axisX) < deadzone) axisX = 0;
+        if (fabs(axisY) < deadzone) axisY = 0;
 
-            // Normalize and apply movement
-            SDL_Point newPos = m_players[i].position;
-            newPos.x += static_cast<int>((axisX / 32768.0f) * moveSpeed * deltaTime);
-            newPos.y += static_cast<int>((axisY / 32768.0f) * moveSpeed * deltaTime);
+        // Normalize and apply movement
+        SDL_Point newPos = m_players[0].position;
+        newPos.x += static_cast<int>((axisX / 32768.0f) * moveSpeed * deltaTime);
+        newPos.y += static_cast<int>((axisY / 32768.0f) * moveSpeed * deltaTime);
 
-            if (IsPositionValid(newPos)) {
-                m_players[i].position = newPos;
-            }
+        if (IsPositionValid(newPos)) {
+            m_players[0].position = newPos;
+        }
+    } 
+
+    // Player 2 controlled by right stick
+    if (m_controllers[0]) {
+        float axisX = SDL_GameControllerGetAxis(m_controllers[0], SDL_CONTROLLER_AXIS_RIGHTX);
+        float axisY = SDL_GameControllerGetAxis(m_controllers[0], SDL_CONTROLLER_AXIS_RIGHTY);
+
+        // Apply deadzone
+        if (fabs(axisX) < deadzone) axisX = 0;
+        if (fabs(axisY) < deadzone) axisY = 0;
+
+        // Normalize and apply movement
+        SDL_Point newPos = m_players[1].position;
+        newPos.x += static_cast<int>((axisX / 32768.0f) * moveSpeed * deltaTime);
+        newPos.y += static_cast<int>((axisY / 32768.0f) * moveSpeed * deltaTime);
+
+        if (IsPositionValid(newPos)) {
+            m_players[1].position = newPos;
         }
     }
 }
