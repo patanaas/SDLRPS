@@ -1,5 +1,11 @@
 // SDLRPS.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+
+/*
+=> Team Members Name:
+1. Ana Patel
+2. Colton Hennessey
+3. John Paua
+*/
 
 #include "Game.h"
 

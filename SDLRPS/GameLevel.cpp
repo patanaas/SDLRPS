@@ -243,17 +243,27 @@ void GameLevel::DetermineWinner() {
         m_stateMessage = m_players[0].nickname + " WINS!";
         m_players[0].wins++;
         m_players[1].losses++;
+        SDL_Log("Player 1 wins: State P1=%d, P2=%d", static_cast<int>(p1State), static_cast<int>(p2State));
+        SDL_Log("Updated scores - P1 W/L: %d/%d, P2 W/L: %d/%d",
+            m_players[0].wins, m_players[0].losses,
+            m_players[1].wins, m_players[1].losses);
     }
-    else {
+    else if((p2State == GameState::Rock && p1State == GameState::Scissors) ||
+        (p2State == GameState::Paper && p1State == GameState::Rock) ||
+        (p2State == GameState::Scissors && p1State == GameState::Paper)) {
         m_stateMessage = m_players[1].nickname + " WINS!";
         m_players[1].wins++;
         m_players[0].losses++;
+        SDL_Log("Player 2 wins: State P1=%d, P2=%d", static_cast<int>(p1State), static_cast<int>(p2State));
+        SDL_Log("Updated scores - P1 W/L: %d/%d, P2 W/L: %d/%d",
+            m_players[0].wins, m_players[0].losses,
+            m_players[1].wins, m_players[1].losses);
     }
     Mix_PlayChannel(-1, m_gunSound, 0);
 }
 
 GameState GameLevel::GetRandomState() {
-    std::uniform_int_distribution<int> dist(3, 5); // 3=Paper, 4=Scissors, 5=Rock
+    std::uniform_int_distribution<int> dist(2, 4); // 2=Paper, 3=Scissors, 4=Rock
     return static_cast<GameState>(dist(m_rng));
 }
 
@@ -276,8 +286,8 @@ void GameLevel::Render() {
         RenderText(m_stateMessage, {255, 0, 0, 255},
             m_players[i].position.x, m_players[i].position.y - 10, 20);
         // Render scores
-        std::string score = "Wins: " + std::to_string(m_players[0].wins) +
-            " Losses: " + std::to_string(m_players[0].losses);
+        std::string score = "Wins: " + std::to_string(m_players[i].wins) +
+            " Losses: " + std::to_string(m_players[i].losses);
         RenderText(score, { 0, 0, 255, 255 }, m_players[i].position.x, m_players[i].position.y + 20, 20);
     }
 

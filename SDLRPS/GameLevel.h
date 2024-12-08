@@ -6,11 +6,11 @@
 #include <random>
 
 enum class GameState {
-    Idle,
-    Roll,
-    Paper,
-    Scissors,
-    Rock
+    Idle = 0,
+    Roll = 1,
+    Paper = 2,
+    Scissors = 3,
+    Rock = 4
 };
 
 struct Player {
